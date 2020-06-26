@@ -34,14 +34,14 @@ spec:
           oauth:
             clients:
               admin:
-                secret: $(cat /etc/secrets/admin-client-secret/password)
+                secret: $(cat /etc/secrets/uaa-admin-client-secret/password)
           EOF
         env:
         - name: SECRETS_DIR
           value: #@ secrets_dir
         volumeMounts:
-        - name: admin-client-secret
-          mountPath: /etc/secrets/admin-client-secret
+        - name: uaa-admin-client-secret
+          mountPath: /etc/secrets/uaa-admin-client-secret
         - name: init-volume
           mountPath: #@ secrets_dir
       - name: build-uaa-truststore
@@ -194,9 +194,9 @@ spec:
           secretName: uaa-ca-certs
       - name: truststore-file
         emptyDir: {}
-      - name: admin-client-secret
+      - name: uaa-admin-client-secret
         secret:
           optional: true
-          secretName: admin-client-secret
+          secretName: uaa-admin-client-secret
       - name: init-volume
         emptyDir: { medium: "Memory" }
