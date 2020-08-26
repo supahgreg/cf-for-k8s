@@ -68,6 +68,7 @@ app_registry:
 
 remove_resource_requirements: false
 add_metrics_server_components: false
+add_prometheus_server_components: true
 enable_load_balancer: true
 use_external_dns_for_wildcard: false
 enable_automount_service_account_token: false
