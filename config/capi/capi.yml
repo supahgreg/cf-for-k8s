@@ -92,6 +92,42 @@ spec:
         port:
           number: 80
 
+#@def resource_parameters(name1, name2)
+resources:
+  requests:
+    #@overlay/match missing_ok=True
+    memory: #@ data.values[name1][name2].resources.requests.mem
+    #@overlay/match missing_ok=True
+    cpu: #@ data.values[name1][name2].resources.requests.cpu
+  limits:
+    #@overlay/match missing_ok=True
+    memory: #@ data.values[name1][name2].resources.limits.mem
+    #@overlay/match missing_ok=True
+    cpu: #@ data.values[name1][name2].resources.limits.cpu
+#@end
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata": {"name": "cf-api-server"}})
+---
+spec:
+  replicas: #@ data.values.cf_api_server.replicas
+  template:
+    spec:
+      containers:
+        #@overlay/match by=overlay.subset({"name":"cf-api-server"}),expects="1+"
+        -
+          #@overlay/replace by=overlay(resource_parameters("cf_api_server", "cf_api_server"))
+          resources:
+            requests:
+              #@overlay/match missing_ok=True
+              memory: #@ data.values.cf_api_server.cf_api_server.resources.requests.mem
+              #@overlay/match missing_ok=True
+              cpu: #@ data.values.cf_api_server.cf_api_server.resources.requests.cpu
+            limits:
+              #@overlay/match missing_ok=True
+              memory: #@ data.values.cf_api_server.cf_api_server.resources.limits.mem
+              #@overlay/match missing_ok=True
+              cpu: #@ data.values.cf_api_server.cf_api_server.resources.limits.cpu
+
 ---
 apiVersion: v1
 kind: Secret
