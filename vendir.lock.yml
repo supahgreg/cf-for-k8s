@@ -28,11 +28,6 @@ directories:
       sha: a8f752f83c1cca23583c14ee9d6ff844407bd436
     path: .
   path: config/uaa/_ytt_lib/uaa
-      url: https://api.github.com/repos/pivotal/kpack/releases/27343776
-    path: github.com/pivotal/kpack
-  - manual: {}
-    path: quarks-secret
-  path: config/_ytt_lib
 - contents:
   - githubRelease:
       url: https://api.github.com/repos/pivotal/kpack/releases/30225354
