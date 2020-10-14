@@ -20,7 +20,6 @@ one certificate.
 
 
 ### Cloud Controller Database Encryption Key
-### Cloud Controller Database Encryption Key
 
 Prior to cf-for-k8s 1.0, rotating the cloud controller db encryption key is a breaking change. Rotating the key will 
 require a recreating your environment (including deleting database contents) in order to prevent decryption errors when fetching
@@ -35,4 +34,4 @@ capi:
   database:
     encryption_key: [KEY]
 ```
-1.Enter a secure value for [KEY] and deploy. 
+1. Enter a secure value for [KEY] and deploy. 
