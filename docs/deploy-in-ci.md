@@ -2,16 +2,17 @@
 
 ## Prerequisites
 
-You will need the same set of prerequisites listed in the [Deploy CF for K8s](deploy.md#prerequisites) documentation. The CLIs will need to be available in the image used by your CI system. The [Dockerfiles in this repo](https://github.com/cloudfoundry/cf-for-k8s/tree/main/ci/dockerfiles), especially [cf-for-k8s-ci](https://github.com/cloudfoundry/cf-for-k8s/blob/main/ci/dockerfiles/cf-for-k8s-ci/Dockerfile) may be helpful.
+You will need the same set of prerequisites listed in the [Deploy CF for K8s](deploy.md#prerequisites) documentation. The CLIs will need to be available in the image used by your CI system. The [Dockerfiles in this repo](https://github.com/cloudfoundry/cf-for-k8s/tree/main/ci/dockerfiles), especially [cf-for-k8s-ci](https://github.com/cloudfoundry/cf-for-k8s/blob/main/ci/dockerfiles/cf-for-k8s-ci/Dockerfile), may be helpful.
 
-## Available Scripts
+## Available scripts
 
 The following scripts are designed to be executable in a CI system, as well as locally:
 
 - Generate all required configuration settings for a given domain:
 
   ```console
-  TMP_DIR=<your-tmp-dir-path> ; mkdir -p ${TMP_DIR}
+  TMP_DIR=<your-tmp-dir-path>
+  mkdir -p ${TMP_DIR}
   ./hack/generate-values.sh --cf-domain <cf-domain> --gcr-service-account-json <path-to-kpack-gcr-service-account-json> > ${TMP_DIR}/cf-install-values.yml
   ```
 
@@ -33,7 +34,7 @@ The following scripts are designed to be executable in a CI system, as well as l
    ./hack/run-smoke-tests.sh
    ```
 
-## Available Docker Images
+## Available Docker images
 
 There are a few Docker images maintained by us that can be used for a CI pipeline:
 
@@ -43,6 +44,6 @@ There are a few Docker images maintained by us that can be used for a CI pipelin
 | `relintdockerhubpushbot/cf-test-runner` | This image contains everything required to run the smoke tests. |
 | `relintdockerhubpushbot/cf-for-k8s-azure` | Used for deploying cf-for-k8s onto an Azure (AKS) cluster. |
 
-## Concourse Example
+## Concourse examples
 
-You can see an example of how we combined these scripts in our own CI pipeline [here](../ci/pipelines/cf-for-k8s.yml).
+You can see examples of how we combined these scripts in our own CI pipelines [here](../ci/pipelines).
