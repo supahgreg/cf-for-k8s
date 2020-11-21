@@ -1,6 +1,6 @@
-# cf-for-k8s Maintainers
+# cf-for-k8s maintainers
 
-[GOVERNANCE](GOVERNANCE.md) doc describes governance guidelines and maintainer responsibilities.
+The [GOVERNANCE](GOVERNANCE.md) doc describes governance guidelines and maintainer responsibilities.
 
 ## Maintainers
 
