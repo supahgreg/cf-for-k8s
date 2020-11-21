@@ -170,7 +170,7 @@ In the following section, we will show how to setup an AWS RDS database and conf
 1. [Install cf-for-k8s](../deploy.md)
 
     i. Configure your [`cf-values.yml`](../deploy.md#cf-values) file
-    i. Render the final K8s template to raw K8s yaml. Pass the `"$DB_VALUES_FILE"` file as additional file to `ytt`
+    i. Render the final K8s template to raw K8s YAML. Pass the `"$DB_VALUES_FILE"` file as additional file to `ytt`
 
     ```bash
     ytt -f config -f "$TMPDIR/cf-values.yml" -f "$DB_VALUES_FILE" > "$TMPDIR/cf-for-k8s-rendered.yml"
