@@ -22,22 +22,22 @@ see "Running Smoke Tests" in [community/PREPARING-FOR-DEVELOPMENT.md](/community
   - `<component>/*.yml` cf-for-k8s specific configuration of component
   - `<component>/_ytt_lib/` unmodified configuration fetched from components' repos (controlled via `/vendir.yml`)
   - `values/00-values.yml` specifies all possible data values used
-  - `*.yml` configuration that glue components together
+  - `*.yml` configuration that glues components together
 - `build/` includes building instructions for components that do not provide plain YAML or ytt templates
   - this directory is only used by cf-for-k8s maintainers
-  - `<component>/build.sh` in each sub-directory has specific build instructions
+  - `<component>/build.sh` in each subdirectory has specific build instructions
     - These `build.sh` scripts take no arguments and can be run from any directory
     - Each `build.sh` also runs `kbld`, which verifies that every image reference includes its digest
   - `<component>/_vendir` contains the unmodified configuration fetched from the component's repo (controlled via `/vendir.yml`)
     - The structure under each component varies depending on the component's own helm chart
   - Every `<component>/` directory contains a `values` file used to configure `helm`; sometimes it's called `values.yml`, but the name is always used explicitly in `build.sh`
-  - All the components use `helm` to generate yaml manifests except `istio`, which is using its own [`istioctl manifest generate`](https://istio.io/v1.7/docs/reference/commands/istioctl/#istioctl-manifest-generate) command
+  - All the components use `helm` to generate YAML manifests except `istio`, which is using its own [`istioctl manifest generate`](https://istio.io/v1.7/docs/reference/commands/istioctl/#istioctl-manifest-generate) command
 
-## Image References
+## Image references
 
 Image references are expected to use an image SHA digest. If using [kbld](https://get-kbld.io/) to build images as suggested in the component development flow, the image reference should include the digest by default.
 
-## Update Example
+## Update example
 
 Suppose we want to update `eirini` from version `A` to `B`.
 
@@ -53,9 +53,9 @@ Suppose we want to update `eirini` from version `A` to `B`.
 
 1. Run `./build.sh`
 
-1. Change back to the main directory (`cd ../../`), `kapp deploy` the new version of eirini, and if everything's good you can commit the local changes.
+1. Change back to the main directory (`cd ../../`), `kapp deploy` the new version of `eirini`, and if everything's good you can commit the local changes.
 
-### Pipeline Updates
+### Pipeline updates
 
 The pipeline code in `ci/tasks/bump-core-component/task.sh` does the above generically:
 
