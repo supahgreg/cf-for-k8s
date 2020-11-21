@@ -4,19 +4,19 @@ The general idea for our long-running environment is to run it similarly to a pr
 
 ## Normal operation
 
-### Nightly Upgrades
+### Nightly upgrades
 
 The [long-lived-env section of the cf-for-k8s stability pipeline](https://release-integration.ci.cf-app.com/teams/main/pipelines/cf-for-k8s-stability-tests?group=long-lived-env) houses our pipeline jobs that are responsible for deploying and upgrading the LRE. Every weeknight, the environment is automatically updated to the latest HEAD of main.
 
-### SLIs / Recurring Measurements
+### SLIs / recurring measurements
 
-see [platform-availability.md](../../docs/platform-availability.md#availability-during-normal-operation), which explains the SLIs and includes some SLI results, at least from the weeks leading up to the 1.0 release.
+See [platform-availability.md](../platform-availability.md#availability-during-normal-operation), which explains the SLIs and includes some SLI results (at least from the weeks leading up to the 1.0 release).
 
 For configuring the Pingdom Uptime check, Release Integration team members have access to https://my.pingdom.com/app/reports/uptime#check=6350471 through the cf-mega@pivotal.io Pingdom account in Lastpass.
 
 ## Infrastructure
 
-We have pipeline jobs in the _private_ [cf-for-k8s-dev-tooling pipeline](https://release-integration.ci.cf-app.com/teams/main/pipelines/cf-for-k8s-dev-tooling?group=long-lived-sli-cluster) to destroy or create the "long-lived-sli cluster" using terraform.
+We have pipeline jobs in the _private_ [cf-for-k8s-dev-tooling pipeline](https://release-integration.ci.cf-app.com/teams/main/pipelines/cf-for-k8s-dev-tooling?group=long-lived-sli-cluster) to destroy or create the "long-lived-sli cluster" using Terraform.
 
 ## Troubleshooting
 
