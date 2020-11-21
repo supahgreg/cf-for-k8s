@@ -26,7 +26,7 @@ The cf-for-k8s is maintained by projects that are governed by the Project Manage
 
 ## Setting up to contribute
 
-Review [Developing CF Components](PREPARING-FOR-DEVELOPMENT.md) to learn how to prepare your local development environment for cf-for-k8s.
+Review [Developing CF components](PREPARING-FOR-DEVELOPMENT.md) to learn how to prepare your local development environment for cf-for-k8s.
 
 ## Pull requests
 
@@ -41,7 +41,7 @@ To submit a proposed change:
 6. If you haven't done it previously, complete the [CLA](#contributor-license-agreement).
 7. When ready, submit the PR!
 
-The PR checks will run unit tests and validate your changes by upgrading from head of `develop` to your PR, monitoring application uptime whilst doing so.  Finally, smoke tests will be ran under various configurations (e.g. oldest and newest supported Kubernetes versions).  If there are failures take a look at the PR's checks, specifically those that failed, as well as the pipeline output to try and ascertain what went wrong.
+The PR checks will run unit tests and validate your changes by upgrading from head of `develop` to your PR, monitoring application uptime whilst doing so.  Finally, [smoke tests](../tests/smoke) will be ran under various configurations (e.g. oldest and newest supported Kubernetes versions).  If there are failures take a look at the PR's checks, specifically those that failed, as well as the pipeline output to try and ascertain what went wrong.
 
 Categories of failure might include:
 - **Deployment:** kapp deploy fails whilst upgrading to your PR.  Typified by errors in the kapp logs.  Investigate to determine if the failure was due to changes that broke deployment assumptions.
