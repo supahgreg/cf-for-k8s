@@ -20,9 +20,9 @@ At end of this setup, you will be able to install cf-for-k8s with a static IP. Y
 
 ## Steps to setup static IP
 
-The following instructions assume you have created `cf-install-values.yml`. You have the option of doing this before you install cf-for-k8s or after you installed cf-for-k8s on a cluster.
+The following instructions assume you have created `cf-values.yml`. You have the option of doing this before you install cf-for-k8s or after you installed cf-for-k8s on a cluster.
 
-1. Add `load_balancer.static_ip` key and the reserved IP to your `cf-install-values.yml`
+1. Add `load_balancer.static_ip` key and the reserved IP to your `cf-values.yml`
 
     ```yaml
     load_balancer:
@@ -53,4 +53,4 @@ The following instructions assume you have created `cf-install-values.yml`. You 
 
 1. Follow the steps in the main deploy document's [Validate the deployment](../deploy.md#validate-the-deployment) section to verify you're able to target the CF API and push apps to the foundation.
 
-1. You can delete cf-for-k8s from the cluster by running `kapp delete -a cf` and the reinstall the cluster with the same `cf-install-values.yml`. This time the loadbalancer will use the reserved IP instead of generating a dynamic IP. You can verify by targing CF CLI to `api.<cf-domain>` and cf push app to the foundation.
+1. You can delete cf-for-k8s from the cluster by running `kapp delete -a cf` and the reinstall the cluster with the same `cf-values.yml`. This time the loadbalancer will use the reserved IP instead of generating a dynamic IP. You can verify by targing CF CLI to `api.<cf-domain>` and cf push app to the foundation.

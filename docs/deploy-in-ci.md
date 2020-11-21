@@ -13,13 +13,13 @@ The following scripts are designed to be executable in a CI system, as well as l
   ```console
   TMP_DIR=<your-tmp-dir-path>
   mkdir -p ${TMP_DIR}
-  ./hack/generate-values.sh --cf-domain <cf-domain> --gcr-service-account-json <path-to-kpack-gcr-service-account-json> > ${TMP_DIR}/cf-install-values.yml
+  ./hack/generate-values.sh --cf-domain <cf-domain> --gcr-service-account-json <path-to-kpack-gcr-service-account-json> > ${TMP_DIR}/cf-values.yml
   ```
 
 - Install CF for K8s to your target K8s cluster.
 
   ```console
-  ytt -f config -f ${TMP_DIR}/cf-install-values.yml > ${TMP_DIR}/cf-for-k8s-rendered.yml
+  ytt -f config -f ${TMP_DIR}/cf-values.yml > ${TMP_DIR}/cf-for-k8s-rendered.yml
   kapp deploy -a cf -f ${TMP_DIR}/cf-for-k8s-rendered.yml -y
   ```
 
