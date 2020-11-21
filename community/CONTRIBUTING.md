@@ -71,6 +71,6 @@ In order to contribute a feature to cf-for-k8s, you'll need to go through the fo
 
 > Note that we prefer bite-sized PRs instead of giant monster PRs. It's therefore preferable if you can introduce large features in smaller reviewable changes that build on top of one another.
 
-## Have a question or feedback, reach out to us
+## Have a question or feedback? Reach out to us!
 
-We are very active in slack channel [#cf-for-k8s](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the Cloud Foundry workspace. Please hit us up with any questions you may have or to share your experience with the cf-for-k8s community. To request a fast reponse during Pacific business hours, begin your message with `#release-integration @interrupt`
+We are very active in the Slack channel [#cf-for-k8s](https://cloudfoundry.slack.com/archives/CH9LF6V1P) of the Cloud Foundry workspace. Please hit us up with any questions you may have or to share your experience with the cf-for-k8s community. To request a fast response during Pacific business hours, begin your message with `#release-integration @interrupt`

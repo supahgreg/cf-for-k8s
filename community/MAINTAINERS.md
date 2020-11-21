@@ -15,6 +15,6 @@
 | Raina Masand | [rainmaker](https://github.com/rainmaker) | [VMware](https://www.github.com/vmware/) |
 | Renee Chu | [reneighbor](https://github.com/reneighbor) | [VMware](https://www.github.com/vmware/) |
 
-## Have a question or feedback, reach out to us
+## Have a question or feedback? Reach out to us!
 
-We are very active in slack channel [#cf-for-k8s](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the Cloud Foundry workspace. Please hit us up with any questions you may have or to share your experience with the cf-for-k8s community. To request a fast reponse during Pacific business hours, begin your message with `#release-integration @interrupt`
+We are very active in the Slack channel [#cf-for-k8s](https://cloudfoundry.slack.com/archives/CH9LF6V1P) of the Cloud Foundry workspace. Please hit us up with any questions you may have or to share your experience with the cf-for-k8s community. To request a fast response during Pacific business hours, begin your message with `#release-integration @interrupt`
