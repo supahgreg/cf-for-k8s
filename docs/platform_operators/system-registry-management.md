@@ -2,13 +2,13 @@
 
 ## Host system images in a specified registry
 
-As an operator, you may want to deploy cf-for-k8s with system images hosted in your own repository. (For instance, to guarantee image availability or to manage Dockerhub rate limiting.) To do so, you can leverage `kbld` for image relocation and the system_registry data values to pass your credentials as imagePullSecrets. Note that for TLS communication, you will need to use a publicly trusted repository.
+As an operator, you may want to deploy cf-for-k8s with system images hosted in your own repository. (For instance, to guarantee image availability or to manage Docker Hub rate limiting.) To do so, you can leverage `kbld` for image relocation and the system_registry data values to pass your credentials as imagePullSecrets. Note that for TLS communication, you will need to use a publicly trusted repository.
 
 1. Relocate all system images into your private registry and generate a relocated-images file:
 
   ```console
   TMP_DIR=<your-tmp-dir-path> ; mkdir -p ${TMP_DIR}
-  PRIVATE_REGISTRY_HOSTNAME=<your-private-registry>  # "index.docker.io/<docker-user-or-org>" for example, if using Dockerhub
+  PRIVATE_REGISTRY_HOSTNAME=<your-private-registry>  # "index.docker.io/<docker-user-or-org>" for example, if using Docker Hub
 
   ytt -f config -f ${TMP_DIR}/cf-values.yml | kbld -f - --lock-output ${TMP_DIR}/cf-for-k8s-images.tmp
   kbld relocate -f ${TMP_DIR}/cf-for-k8s-images.tmp --repository ${PRIVATE_REGISTRY_HOSTNAME}/cf-for-k8s --lock-output ${TMP_DIR}/cf-for-k8s-relocated-images.yml

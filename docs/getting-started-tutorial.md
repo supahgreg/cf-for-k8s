@@ -22,7 +22,7 @@ You’ll also need a few CLIs before you start:
 - [yq](https://github.com/mikefarah/yq); a cli tool for extracting information from yaml documents
 - [BOSH CLI](https://bosh.io/docs/cli-v2-install/#install); a handy tool to generate self signed certs and passwords, used by generate-values
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git); the tool we use to interact with the cf-for-k8s repository
-- a [Dockerhub](https://hub.docker.com) account; cf-for-k8s will use this account to store your application images
+- a [Docker Hub](https://hub.docker.com) account; cf-for-k8s will use this account to store your application images
 - [cf](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html), the cli used to interact with Cloud Foundry 
 
 ## Installing Cf-for-K8s
@@ -65,7 +65,7 @@ use_first_party_jwt_tokens: true
 EOF
 ```
 NOTES:
-1. You must supply an OCI-compliant container registry. Dockerhub is recommended.
+1. You must supply an OCI-compliant container registry. Docker Hub is recommended.
 2. The additional properties configure your cf-for-k8s to run on a local kind cluster.
 
 With our input values configured we are now ready to deploy cf-for-k8s:
