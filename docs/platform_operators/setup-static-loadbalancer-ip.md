@@ -8,9 +8,9 @@ At end of this setup, you will be able to install cf-for-k8s with a static IP. Y
 
 ## Prerequisites
 
-- In addition to `LoadBalancer` services support, your kubernetes cluster should support setting static IP to `LoadBalancer`.
+- In addition to `LoadBalancer` services support, your Kubernetes cluster should support setting static IP to `LoadBalancer`.
 - A reserved IP address (IPv4?).
-- A DNS a record with your reserved IP pointing to your desired system and app Domains. This is a one time setup for your foundation e.g.
+- A DNS a record with your reserved IP pointing to your desired system and app domains. This is a one time setup for your foundation.  For example:
 
       ```console
       # sample A record in Google cloud DNS. The IP address below is the reserved IP from your cloud provider
@@ -30,7 +30,7 @@ The following instructions assume you have created `cf-install-values.yml`. You 
       static_ip: "<reserved ip address>"
     ```
 
-1. Follow the instructions from deploy doc to generate the final deploy yml using `ytt` and then `kapp` deploy cf-for-k8s to your cluster.
+1. Follow the instructions from deploy doc to generate the final deploy YAML using `ytt` and then `kapp` deploy cf-for-k8s to your cluster.
 
 ## Verify the static IP setup
 
@@ -51,6 +51,6 @@ The following instructions assume you have created `cf-install-values.yml`. You 
     api.<cf-domain>. 5	IN	A	<your reserved ip address>
     ```
 
-1. Follow the steps in the main deploy doc under section Validate the deployment to verify you're able to target CF CLI and push apps to the foundation.
+1. Follow the steps in the main deploy document's [Validate the deployment](../deploy.md#validate-the-deployment) section to verify you're able to target the CF API and push apps to the foundation.
 
 1. You can delete cf-for-k8s from the cluster by running `kapp delete -a cf` and the reinstall the cluster with the same `cf-install-values.yml`. This time the loadbalancer will use the reserved IP instead of generating a dynamic IP. You can verify by targing CF CLI to `api.<cf-domain>` and cf push app to the foundation.
