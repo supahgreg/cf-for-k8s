@@ -14,14 +14,14 @@ Accepted
 ## Context
 
 As we look to support the rotation of configuration and credentials in cf-for-k8s,
-we have considered the potential challenges of a kubernetes-native implementation. At
-some point in the chain from kubernetes resources to the processes running in pods, we need
+we have considered the potential challenges of a Kubernetes-native implementation. At
+some point in the chain from Kubernetes resources to the processes running in pods, we need
 to update a value and have that value flow into the running processes by which it
 is consumed.
 
 As an initial callout, we have the following underlying assumption:
 hardcoding the value of a secret into config and updating it there is not a secure solution.
-Instead we would like to capture configuration and values in kubernetes
+Instead we would like to capture configuration and values in Kubernetes
 primitives, ConfigMaps and Secrets, and only consume references to those resources.
 Consequently our only option for updating the value itself is to update the ConfigMap or Secret.
 This leaves the question of how we update all of the consumers of those resources?
@@ -51,7 +51,7 @@ kind: Pod
 
 An update mechanism would be responsible for finding every instance of the
 secret values: 'my-secret' and 'my-other-secret' and updating them directly in
-plaintext on the kubernetes resources yaml.
+plaintext on the Kubernetes resources YAML.
 
 #### Secure reference example:
 kind: Secret
@@ -68,7 +68,7 @@ kind: Pod
     secret:
       name: secure-example
 
-An update mechanism would now only be responsible for updating the kubernetes
+An update mechanism would now only be responsible for updating the Kubernetes
 Secret value directly.
 
 ### Propagating the updated value in both cases:
@@ -76,7 +76,7 @@ An update mechanism would be responsible for finding every runtime use of the
 secret reference and triggering the value to update. The cluster kubelet handles
 the update of secrets on containers on some configurable interval for instance.
 
-We could take advantage of the standard kubernetes initialization
+We could take advantage of the standard Kubernetes initialization
 lifecycle to both update and load the updated secret by restarting the running containers with a
 pod update or something of that nature. Alternatively, the runtime itself could
 be responsible for detecting changes to the mounted secrets and reloading after

@@ -1,34 +1,33 @@
-# Deploying CF for K8s Locally
+# Deploying CF for K8s locally
 
 - [Prerequisites](#prerequisites)
-  * [Required Tools](#required-tools)
-  * [Machine Requirements](#machine-requirements)
+  * [Required tools](#required-tools)
+  * [Machine requirements](#machine-requirements)
 - [Considerations](#considerations)
-- [Steps to Deploy on KinD](#steps-to-deploy-on-kind)
-- [Steps to Deploy on Minikube](#steps-to-deploy-on-minikube)
+- [Steps to deploy on kind](#steps-to-deploy-on-kind)
+- [Steps to Deploy on minikube](#steps-to-deploy-on-minikube)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 ## Prerequisites
 
-### Required Tools
+### Required tools
 
 See the requirements in [Deploying CF for K8s](deploy.md#required-tools).
 
-### Machine Requirements
+### Machine requirements
 
 In addition to the Kubernetes version requirement in [Deploying CF for K8s](deploy.md#kubernetes-cluster-requirements), the cluster should:
 
-1) Use a Kubernetes version within the supported version window (see `supported_k8s_versions.yml`)
+1. Use a Kubernetes version within the supported version window (see `supported_k8s_versions.yml`)
+2. Specify at least the minimum resource requirements shown below.
 
-2) Specify at least the minimum resource requirements shown below.
-
-**Minimum Requirements**
+**Minimum requirements**
 
 - 4 CPU, 6GB memory if using 1 node
 
-**Recommended Requirements**
+**Recommended requirements**
 
 - 6-8 CPU, 8-16GB memory if using 1 node
 - When running with less than recommended requirements it is common for an initial `kapp deploy` to timeout; a successive `kapp deploy` may remedy this.
@@ -40,18 +39,18 @@ Configuration Notes:
 ## Considerations
 
 1. Using minikube allows local image development via the included docker daemon
-   without having to push to a public image registry, whereas KinD uses
+   without having to push to a public image registry, whereas kind uses
    containerd as its backing driver, which doesn't allow for local image
    creation.
 
-1. The docker driver for minikube is significantly faster than the default
-   virtualbox driver as it uses the local Docker for Mac installation.
+1. The Docker driver for minikube is significantly faster than the default
+   VirtualBox driver as it uses the local Docker for Mac installation.
 
-## Steps to Deploy on KinD
+## Steps to deploy on kind
 
-0. (Optional) Choose the version of Kubernetes you'd like to use to deploy KinD.
+0. (Optional) Choose the version of Kubernetes you'd like to use to deploy kind.
 
-   To grab the latest KinD patch version of a K8s minor release:
+   To grab the latest kind patch version of a K8s minor release:
 
    ```console
    # from the cf-for-k8s repo/directory
@@ -60,10 +59,10 @@ Configuration Notes:
      jq -r '.[].name' | grep -E "^v${k8s_minor_version}.[0-9]+$" | \
      cut -d. -f3 | sort -rn | head -1)
    k8s_version="v${k8s_minor_version}.${patch_version}"
-   echo "Creating KinD cluster with Kubernetes version ${k8s_version}"
+   echo "Creating kind cluster with Kubernetes version ${k8s_version}"
    ```
 
-1. Create a KinD cluster:
+1. Create a kind cluster:
 
    ```console
    # from the cf-for-k8s repo/directory
@@ -92,7 +91,7 @@ Configuration Notes:
 
    * If the kapp deploy fails with a message like `Finished unsuccessfully (Deployment is not progressing: ProgressDeadlineExceeded (message: ReplicaSet "something" has timed out progressing.))`, this may indicate that your cluster's resources are under allocated. Simply re-running the kapp deploy command frequently fixes this issue.
 
-## Steps to Deploy on Minikube
+## Steps to Deploy on minikube
 
 1. Start minikube using the docker driver:
 
@@ -148,7 +147,7 @@ Configuration Notes:
    cf api --skip-ssl-validation https://api.<minikube ip>.nip.io
    ```
 
-1. To access the kubelet's docker engine, run:
+1. To access the kubelet's Docker engine, run:
 
    ```console
    eval $(minikube docker-env)

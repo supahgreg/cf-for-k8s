@@ -8,7 +8,7 @@ At end of this setup, you will be able to install cf-for-k8s with a static IP. Y
 
 ## Prerequisites
 
-- In addition to `LoadBalancer` services support, your kubernetes cluster should support setting static IP to `LoadBalancer`.
+- In addition to `LoadBalancer` services support, your Kubernetes cluster should support setting static IP to `LoadBalancer`.
 - A reserved IP address (IPv4?).
 - A DNS a record with your reserved IP pointing to your desired system and app Domains. This is a one time setup for your foundation e.g.
 

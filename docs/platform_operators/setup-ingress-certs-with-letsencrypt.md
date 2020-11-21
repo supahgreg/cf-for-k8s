@@ -59,7 +59,7 @@ certbot --server https://acme-v02.api.letsencrypt.org/directory -d "*.$APPS_DOMA
 _acme-challenge.$APPS_DOMAIN.	TXT    kyfxzsAirB79lsk173jkdlamxiryqloy
 ```
 
-### Update cf-values yaml
+### Update cf-values YAML
 The following instructions assume you have created `cf-install-values.yml`. Please ensure to copy the file contents into the variables as is.
 
 1. **Update system certificate values**

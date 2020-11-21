@@ -1,22 +1,21 @@
-- [Scaling cf-for-k8s](#scaling-cf-for-k8s)
-  * [Horizontal Scaling](#horizontal-scaling)
-  * [Vertical Scaling](#vertical-scaling)
-    + [Simple ytt interface for scaling all pods](#simple-ytt-interface-for-scaling-all-pods)
-  * [Example resource scaling for a massive cf-for-k8s](#example-resource-scaling-for-a-massive-cf-for-k8s)
-  * [Component-specific Scaling](#component-specific-scaling)
-    + [Scaling CF API](#scaling-cf-api)
-    + [Scaling Networking](#scaling-networking)
-  * [Discovering all cf-for-k8s Pods](#discovering-all-cf-for-k8s-pods)
-  * [ytt overlay troubleshooting](#ytt-overlay-troubleshooting)
+# Scaling cf-for-k8s
+
+- [Horizontal scaling](#horizontal-scaling)
+- [Vertical scaling](#vertical-scaling)
+  * [Simple ytt interface for scaling all pods](#simple-ytt-interface-for-scaling-all-pods)
+- [Example resource scaling for a massive cf-for-k8s](#example-resource-scaling-for-a-massive-cf-for-k8s)
+- [Component-specific scaling](#component-specific-scaling)
+  * [Scaling CF API](#scaling-cf-api)
+  * [Scaling networking](#scaling-networking)
+- [Discovering all cf-for-k8s pods](#discovering-all-cf-for-k8s-pods)
+- [ytt overlay troubleshooting](#ytt-overlay-troubleshooting)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
-# Scaling cf-for-k8s
+cf-for-k8s ships by default in a small-footprint, developer configuration (i.e. suitable to run on a local minikube or kind cluster) to allow for quick testing. For production use cases, cf-for-k8s needs to be scaled up. This document describes different ways of scaling cf-for-k8s and gives examples that you can use as a starting point.
 
-cf-for-k8s ships by default in a small-footprint, developer configuration to allow for quick testing, for example on a minikube or KinD local cluster. For production use cases, cf-for-k8s needs to be scaled up. This document describes different ways of scaling cf-for-k8s and gives examples that you can use as a starting point.
-
-## Horizontal Scaling
+## Horizontal scaling
 
 This involves changing the number of Kubernetes _pods_ (where a pod is where containers are run) that a particular component uses.
 
@@ -49,9 +48,9 @@ $ diff /tmp/cffork8s-rendered.yml /tmp/new-cffork8s-rendered.yml
 >   replicas: 3
 ```
 
-You can learn much more about `ytt`, and try things out in the `ytt sandbox` at https://get-ytt.io .
+You can learn much more about `ytt`, and try things out in the `ytt sandbox`, at https://get-ytt.io .
 
-## Vertical Scaling
+## Vertical scaling
 
 This section is concerned with two resources: the amount of RAM and how much of a CPU a container has access to.
 
@@ -69,7 +68,7 @@ When a container is run, a command like `docker run` can specify the amount of m
       memory: 1.2Gi
 ```
 
-The `requests` block gives the initial resources for the container, and the `limits` gives the final. If a container exceeds a factor in the `limits` block, kubernetes kills that container and starts a new one. This is called [burstable QOS](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/) (quality of service), and is normally the best way to configure pods. See this wonderful, succinct blog post to learn more: [The Kubernetes Quality of Service Conundrum](https://medium.com/better-programming/the-kubernetes-quality-of-service-conundrum-eebbbb5f89cf)
+The `requests` block gives the initial resources for the container, and the `limits` gives the final. If a container exceeds a factor in the `limits` block, Kubernetes kills that container and starts a new one. This is called [burstable QOS](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/) (quality of service), and is normally the best way to configure pods. See this wonderful, succinct blog post to learn more: [The Kubernetes Quality of Service Conundrum](https://medium.com/better-programming/the-kubernetes-quality-of-service-conundrum-eebbbb5f89cf)
 
 You _could_ modify this file in place, but it's better to write a reusable `ytt` overlay to scale. All your overlays could be in a single file, but we'll write this one in a separate file, `vertically-scale-api-server.yml`, to isolate the change:
 
@@ -89,7 +88,7 @@ spec:
             memory: 2.4Gi
 ```
 
-The syntax might be unfamiliar, but it's essentially describing a path through the yaml tree (`kind.spec.template.spec.containers`) using the two `overlay/match` commands to select the particular items we want. Again, see https://get-ytt.io for more info.
+The syntax might be unfamiliar, but it's essentially describing a path through the YAML tree (`kind.spec.template.spec.containers`) using the two `overlay/match` commands to select the particular items we want. Again, see https://get-ytt.io for more info.
 
 This time, comparing the new and old rendered contents should give this diff:
 
@@ -106,19 +105,19 @@ $ diff /tmp/rendered-contents.yml /tmp/new-rendered-contents.yml
 
 ### Simple ytt interface for scaling all pods
 
-For an example ytt overlay that provides a simple values file interface for scaling any pod/container, please checkout this example from the Carvel team in the ytt playground: https://get-ytt.io/#gist:https://gist.github.com/cppforlife/32d6ed87a18c66333dab8e710e180dea
+For an example `ytt` overlay that provides a simple values file interface for scaling any pod/container, please check out this example from the Carvel team in the `ytt` playground: https://get-ytt.io/#gist:https://gist.github.com/cppforlife/32d6ed87a18c66333dab8e710e180dea
 
 ## Example resource scaling for a massive cf-for-k8s
 
 For a massive scale test, we recommend the values used by the SAP team in their write-up here: https://github.com/perf-cfk8s/docs/wiki/cf-for-k8s-1.0.0
 
-## Component-specific Scaling
+## Component-specific scaling
 
 ### Scaling CF API
 
 Please see https://docs.cloudfoundry.org/running/managing-cf/scaling-cloud-controller-k8s.html
 
-### Scaling Networking
+### Scaling networking
 
 This describes how to scale the cf-for-k8s networking components for production use cases. It uses the ideas and principles described above and includes an example overlay implementation.
 
@@ -126,11 +125,11 @@ If you would like to scale up the networking components for a larger scale
 environment, simply:
 1. Copy the following example into a `scaling-networking.yml` file
 1. Adjust the values to your liking
-1. Append `-f scaling-networking.yml` to the `ytt` command you run for rendering your cf-for-k8s yaml
+1. Append `-f scaling-networking.yml` to the `ytt` command you run for rendering your cf-for-k8s YAML
 
 The number of ingressgateway replicas depends on load profile of your cluster. Based on the Istio team's testing, in an unknown test environment, a single Envoy consumes 0.5 vCPU and 50 MB memory per 1000 requests per second.
 
-The number of istiod replicas depends on the number of application instances.
+The number of `istiod` replicas depends on the number of application instances.
 
 We recommend two routecontrollers for high availability; you likely won't
 need more than that.
@@ -246,9 +245,9 @@ spec:
             memory: #@ routecontroller_mem_request
 ```
 
-## Discovering all cf-for-k8s Pods
+## Discovering all cf-for-k8s pods
 
-`cf-for-k8s` puts pods in several different namespaces, so the most straightforward way to list all the pods that can be scaled up is by ignoring the kubernetes pods, with this command:
+`cf-for-k8s` puts pods in several different namespaces, so the most straightforward way to list all the pods that can be scaled up is by ignoring the Kubernetes pods, with this command:
 
 ```bash
 $ kubectl get pods -A | grep -v -e kube-system -e cf-workloads

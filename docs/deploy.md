@@ -1,9 +1,9 @@
 # Deploying Cloud Foundry on a Kubernetes cluster
 
 - [Prerequisites](#prerequisites)
-  * [Required Tools](#required-tools)
-  * [Kubernetes Cluster Requirements](#kubernetes-cluster-requirements)
-  * [Container Registry Requirements](#container-registry-requirements)
+  * [Required tools](#required-tools)
+  * [Kubernetes cluster requirements](#kubernetes-cluster-requirements)
+  * [Container registry requirements](#container-registry-requirements)
   * [Setup an OCI-compliant registry](#setup-an-oci-compliant-registry)
 - [Steps to deploy](#steps-to-deploy)
     + [Option A - Use the included hack-script to generate the install values](#option-a---use-the-included-hack-script-to-generate-the-install-values)
@@ -17,7 +17,7 @@
 
 ## Prerequisites
 
-### Required Tools
+### Required tools
 
 You need the following CLIs on your system to be able to run the script:
 
@@ -30,7 +30,7 @@ You need the following CLIs on your system to be able to run the script:
 
 > Make sure that your Kubernetes config (e.g, `~/.kube/config`) is pointing to the cluster you intend to deploy cf-for-k8s to.
 
-### Kubernetes Cluster Requirements
+### Kubernetes cluster requirements
 
 To deploy cf-for-k8s as is, the cluster should:
 
@@ -45,7 +45,7 @@ To deploy cf-for-k8s as is, the cluster should:
 - defines a default StorageClass
   - requires [additional config on vSphere](https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/storageclass.html), for example
 
-### Container Registry Requirements
+### Container registry requirements
 
 To deploy cf-for-k8s as is, you will need to provide an OCI-compliant registry.
 
@@ -250,4 +250,4 @@ Use the following resources to enable additional features in cf-for-k8s:
 - [Setup an external blobstore](platform_operators/external-blobstore.md), which we recommend for Production environments
 
 ## Roadmap and milestones
-You can find the project roadmap (github project) [here](https://github.com/cloudfoundry/cf-for-k8s/projects/4) and our upcoming milestones [here](https://github.com/cloudfoundry/cf-for-k8s/milestones). Feel free to ask questions in the [#cf-for-k8s channel](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the CloudFoundry slack or submit new feature requests or issues on this repo.
+You can find the project roadmap (github project) [here](https://github.com/cloudfoundry/cf-for-k8s/projects/4) and our upcoming milestones [here](https://github.com/cloudfoundry/cf-for-k8s/milestones). Feel free to ask questions in the [#cf-for-k8s channel](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the Cloud Foundry slack or submit new feature requests or issues on this repo.

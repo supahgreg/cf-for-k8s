@@ -31,7 +31,7 @@ see "Running Smoke Tests" in [community/PREPARING-FOR-DEVELOPMENT.md](/community
   - `<component>/_vendir` contains the unmodified configuration fetched from the component's repo (controlled via `/vendir.yml`)
     - The structure under each component varies depending on the component's own helm chart
   - Every `<component>/` directory contains a `values` file used to configure `helm`; sometimes it's called `values.yml`, but the name is always used explicitly in `build.sh`
-  - All the components use `helm` to generate yaml manifests except `istio`, which is using its own [`istioctl manifest generate`](https://istio.io/v1.7/docs/reference/commands/istioctl/#istioctl-manifest-generate) command
+  - All the components use `helm` to generate YAML manifests except `istio`, which is using its own [`istioctl manifest generate`](https://istio.io/v1.7/docs/reference/commands/istioctl/#istioctl-manifest-generate) command
 
 ## Image References
 
