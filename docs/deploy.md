@@ -1,9 +1,9 @@
 # Deploying Cloud Foundry on a Kubernetes cluster
 
 - [Prerequisites](#prerequisites)
-  * [Required Tools](#required-tools)
-  * [Kubernetes Cluster Requirements](#kubernetes-cluster-requirements)
-  * [Container Registry Requirements](#container-registry-requirements)
+  * [Required tools](#required-tools)
+  * [Kubernetes cluster requirements](#kubernetes-cluster-requirements)
+  * [Container registry requirements](#container-registry-requirements)
   * [Setup an OCI-compliant registry](#setup-an-oci-compliant-registry)
 - [Steps to deploy](#steps-to-deploy)
     + [Option A - Use the included hack-script to generate the install values](#option-a---use-the-included-hack-script-to-generate-the-install-values)
@@ -17,9 +17,9 @@
 
 ## Prerequisites
 
-### Required Tools
+### Required tools
 
-You need the following CLIs on your system to be able to run the script:
+You need the following CLIs on your system to be able to run the deployment script:
 
 - `ytt` [install link](https://carvel.dev/#install) [github repo](https://github.com/k14s/ytt)
   - cf-for-k8s uses `ytt` to create and maintain reusable YAML templates. You can visit the ytt [playground](https://get-ytt.io/) to learn more about its templating features.
@@ -30,22 +30,22 @@ You need the following CLIs on your system to be able to run the script:
 
 > Make sure that your Kubernetes config (e.g, `~/.kube/config`) is pointing to the cluster you intend to deploy cf-for-k8s to.
 
-### Kubernetes Cluster Requirements
+### Kubernetes cluster requirements
 
 To deploy cf-for-k8s as is, the cluster should:
 
 - be running Kubernetes version within range 1.16.x to 1.19.x
 - have a minimum of 5 nodes
 - have a minimum of 4 CPU, 15GB memory per node
-- if PodSecurityPolicies are enforced on the cluster, [pods must be allowed to
-  have `NET_ADMIN` and `NET_RAW` capabilities](https://istio.io/latest/docs/ops/deployment/requirements/#required-pod-capabilities)
+- (if PodSecurityPolicies are enforced on the cluster) [allow pods the `NET_ADMIN` and `NET_RAW` capabilities](https://istio.io/latest/docs/ops/deployment/requirements/#required-pod-capabilities)
 - have a CNI plugin (Container Network Interface plugin) that supports network policies (otherwise, the NetworkPolicy resources applied by cf-for-k8s will have no effect)
 - support `LoadBalancer` services
-- most IaaSes come with `metrics-server`, but if yours does not come with one (for example, if you are using `kind`), you will need to include `add_metrics_server_components: true` in your values file.
-- defines a default StorageClass
+- have `metrics-server` running
+   * Most IaaSes come with `metrics-server`, but if yours does not come with one (for example, if you are using `kind`), you will need to include `add_metrics_server_components: true` in your values file.
+- define a default StorageClass
   - requires [additional config on vSphere](https://vmware.github.io/vsphere-storage-for-kubernetes/documentation/storageclass.html), for example
 
-### Container Registry Requirements
+### Container registry requirements
 
 To deploy cf-for-k8s as is, you will need to provide an OCI-compliant registry.
 
@@ -55,7 +55,7 @@ You must provide a container registry.  You can choose any of the cloud provider
 
 Currently, we test the following two container registries:
 
-- [hub.docker.com](https://hub.docker.com/) is pretty easy to get started:
+- [Docker Hub](https://hub.docker.com/) is pretty easy to get started:
    1. Create an account in [hub.docker.com](https://hub.docker.com/). Note down the user name and password you used during signup.
    1. Create a repository in your account. Note down the repository name.
 
@@ -70,7 +70,8 @@ Currently, we test the following two container registries:
    ```console
    git clone https://github.com/cloudfoundry/cf-for-k8s.git -b main
    cd cf-for-k8s
-   TMP_DIR=<your-tmp-dir-path> ; mkdir -p ${TMP_DIR}
+   TMP_DIR=<your-tmp-dir-path>
+   mkdir -p ${TMP_DIR}
    ```
 
    Note: if you would like the latest release, replace the branch reference in the clone command with that release tag. (E.G. `-b v1.0.0`)
@@ -81,29 +82,30 @@ Currently, we test the following two container registries:
 
    #### Option A - Use the included hack-script to generate the install values
 
-   >  **NOTE:** The script requires the [BOSH CLI](https://bosh.io/docs/cli-v2-install/#install) in installed on your machine. The BOSH CLI is an handy tool to generate self signed certs and passwords.
+   >  **NOTE:** The script requires that the [BOSH CLI](https://bosh.io/docs/cli-v2-install/#install) is installed on your machine. The BOSH CLI is a handy tool to (for our purposes) generate self-signed certificates and passwords.
 
    ```console
    ./hack/generate-values.sh -d <cf-domain> > ${TMP_DIR}/cf-values.yml
    ```
 
-   Replace `<cf-domain>` with _your_ registered DNS domain name for your CF installation.
+   Replace `<cf-domain>` with _your_ registered DNS domain name for the CF installation.
 
    #### Option B - Create the install values by hand
 
-   1. Clone file `sample-cf-install-values.yml` from this directory as a starting point.
+   1. Copy file `sample-cf-install-values.yml` (in the `cf-for-k8s/` directory) as a starting point.
 
       ```console
       cp sample-cf-install-values.yml ${TMP_DIR}/cf-values.yml
       ```
 
-   1. Open the file and change the `system_domain` and `app_domain` to your desired domain address.
-   1. Generate certificates for the above domains and paste them in `crt`, `key`, `ca` values
-      - **IMPORTANT** Your certificates must include a subject alternative name entry for the internal `*.cf-system.svc.cluster.local` domain in addition to your chosen external domain.
+   1. Open your file and change the `system_domain` and `app_domains` to your desired domain names.
+   1. Generate certificates for your chosen domains, as well as `*.cf-system.svc.cluster.local`.
+      - Depending upon your needs you can either group the 3 domains under a single certificate or split them into multiple certificates.
+   1. Using the material from the previous step, fill in the `crt`, `key`, `ca` values for `system_certificate`, `workloads_certificate`, and `internal_certificate`.
 
 1. Provide your credentials to an external app registry:
 
-      1. To configure Dockerhub.com, add the following registry config block to the end of `cf-values.yml` file:
+      1. To use Docker Hub, add the following registry config block to the end of your `cf-values.yml` file:
 
          ```yml
          app_registry:
@@ -114,9 +116,9 @@ Currently, we test the following two container registries:
 
          ```
 
-         Update `<my_username>` and `<my_password>` with your docker username and password that you created in the above section [Setup docker registry](#setup-a-docker-registry).
+         Update `<my_username>` and `<my_password>` with the Docker username and password that you created in [Setup an OCI-compliant registry](#setup-an-oci-compliant-registry).
 
-      1. To configure a Google Container Registry, add the following registry config block to the end of `cf-values.yml` file:
+      1. To use Google Container Registry, add the following registry config block to the end of your `cf-values.yml` file:
 
          ```yml
          app_registry:
@@ -127,7 +129,7 @@ Currently, we test the following two container registries:
              <contents_of_service_account_json>
          ```
 
-         Update the `gcp_project_id` portion to your GCP Project ID and change `contents_of_service_account_json` to be the entire contents of your GCP Service Account JSON.
+         Update the `gcp_project_id` portion of `repository_prefix` with your GCP Project ID and change `contents_of_service_account_json` to be the entire contents of your GCP Service Account JSON.
 
 1. Run the following commands to install Cloud Foundry on your Kubernetes cluster:
 
@@ -137,13 +139,13 @@ Currently, we test the following two container registries:
          ytt -f config -f ${TMP_DIR}/cf-values.yml > ${TMP_DIR}/cf-for-k8s-rendered.yml
          ```
 
-      1. Install using `kapp` and pass the above K8s configuration file
+      1. Install using `kapp` and the rendered K8s configuration file from the previous command
 
          ```console
          kapp deploy -a cf -f ${TMP_DIR}/cf-for-k8s-rendered.yml -y
          ```
 
-   Once you run the command, it should take about 10 minutes or less, depending on your cluster bandwidth and size. `kapp` will provide updates on pending resource creations in the cluster and will wait until all resources are created and running. Here is a sample snippet from `kapp` output:
+   The `kapp` command should take about 10 minutes or less to complete, depending on your cluster bandwidth and size. `kapp` will provide updates on pending resource creations in the cluster, and will wait until all resources are created and running. Here is a sample snippet from `kapp` output:
 
    ```console
    4:08:19PM: ---- waiting on 1 changes [0/1 done] ----
@@ -152,13 +154,13 @@ Currently, we test the following two container registries:
    ...
    ```
 
-1. Configure DNS on your IaaS provider to point the wildcard subdomain of your system domain and the wildcard subdomain of all apps domains to point to external IP of the Istio Ingress Gateway service. You can retrieve the external IP of this service by running:
+1. Configure DNS on your IaaS provider to point the wildcard subdomain of your system domain (`system_domain`) and the wildcard subdomain of all app domains (`app_domains`) to the external IP of the Istio Ingress Gateway service. You can retrieve the external IP of this service by running:
 
    ```console
    kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[*].ip}'
    ```
 
-   OR in certain environments, the external ip may be surfaced as a hostname instead. In that case use:
+   OR in certain environments, the external IP may be surfaced as a hostname instead. In that case use:
 
    ```console
    kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[*].hostname}'
@@ -190,7 +192,7 @@ Currently, we test the following two container registries:
    # or using yq: cf auth admin "$(yq -r '.cf_admin_password' ${TMP_DIR}/cf-values.yml)"
    ```
 
-1. Create an org/space for your app:
+1. Create an org and space for your app:
 
    ```console
    cf create-org test-org
@@ -244,10 +246,10 @@ You can delete the cf-for-k8s deployment by running the following command:
 ## Additional resources
 Use the following resources to enable additional features in cf-for-k8s:
 
-- [Setup ingress certs with letsencrypt](platform_operators/setup-ingress-certs-with-letsencrypt.md)
+- [Setup ingress certs with Let's Encrypt](platform_operators/setup-ingress-certs-with-letsencrypt.md)
 - [Setup static loadbalancer IP](platform_operators/setup-static-loadbalancer-ip.md)
 - [Setup an external database](platform_operators/external-databases.md), which we recommend for Production environments
 - [Setup an external blobstore](platform_operators/external-blobstore.md), which we recommend for Production environments
 
 ## Roadmap and milestones
-You can find the project roadmap (github project) [here](https://github.com/cloudfoundry/cf-for-k8s/projects/4) and our upcoming milestones [here](https://github.com/cloudfoundry/cf-for-k8s/milestones). Feel free to ask questions in the [#cf-for-k8s channel](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the CloudFoundry slack or submit new feature requests or issues on this repo.
+You can find the project roadmap (a GitHub project) [here](https://github.com/cloudfoundry/cf-for-k8s/projects/4) and our upcoming milestones [here](https://github.com/cloudfoundry/cf-for-k8s/milestones). Feel free to ask questions in the [#cf-for-k8s channel](https://cloudfoundry.slack.com/archives/CH9LF6V1P) in the Cloud Foundry Slack or submit new feature requests or issues on this repo.
