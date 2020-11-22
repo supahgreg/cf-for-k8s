@@ -1,4 +1,4 @@
-Default values are set in files like `config/values/00-values.yml`
+Default values are set in files like [config/values/00-values.yml](../../config/values/00-values.yml).
 
 | Property | Description  | Required | Default value | Example |
 | --- | --- | --- | --- | --- |
