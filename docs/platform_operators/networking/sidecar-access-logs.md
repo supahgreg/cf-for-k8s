@@ -1,9 +1,9 @@
-## Access Logs
+## Sidecar access logs
 
 ### How to view access logs?
 
 Traffic flows through the sidecar containers on sidecar enabled pods, which
-prints access logs to stdout. For example, this is how you might view them for your apps:
+prints access logs to `stdout`. For example, this is how you might view them for your apps:
 
 ```
 kubectl logs app-pod -c istio-proxy -n cf-workloads
@@ -54,16 +54,16 @@ command for any pod in a namespace with the label `istio-injection=enabled`.
 
 ### Duration fields
 
-The access log contains the following fields for duration in milliseconds
+The access log contains the following fields for duration (in milliseconds):
 
 - `upstream_service_time`: The time from when the sidecar sends a request to the app to when it receives a response from the app
 - `duration`: The time from when the sidecar receives a request from the gateway to when it sends a response to the gateway
 - `response_duration`: The time from when the sidecar receives a request from the gateway to when it receives a response from the app
 - `response_tx_duration`: The time a response spends in the sidecar
 
-![](assets/sidecar-graph.png)
+![](../assets/sidecar-graph.png)
 
-#### Determining App Latency vs Platform Latency
+#### Determining app latency vs platform latency
 To calculate the time a request spends within the sidecar subtract `upstream_service_time` from `response_duration`
 
 ### Fields

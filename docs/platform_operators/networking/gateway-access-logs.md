@@ -1,4 +1,4 @@
-## Access logs
+## Gateway access logs
 
 ### How to view access logs?
 
@@ -58,7 +58,7 @@ The access log contains the following fields for duration (in milliseconds):
 - `response_duration`: The time from when the gateway receives a request from the client to when it receives a response from the sidecar
 - `response_tx_duration`: The time a response spends in the gateway
 
-![](assets/duration-fields.jpg)
+![](../assets/duration-fields.jpg)
 
 #### Determining app latency vs platform latency
 To calculate the time a request spends within the gateway subtract `upstream_service_time` from `response_duration`.
