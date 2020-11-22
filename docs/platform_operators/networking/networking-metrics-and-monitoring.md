@@ -1,16 +1,16 @@
-# Networking Metrics and Monitoring
+# Networking metrics and monitoring
 
 The networking control plane emits metrics that can be used to understand the
 health of the platform. These metrics can be consumed by Prometheus and graphed
 with Grafana, but the installation and configuration of those tools is outside
 the scope of this document.
 
-## Official Resources
+## Official resources
 
 There is existing official documentation on what metrics each component exposes.
 
 * [Istio metrics](https://istio.io/latest/docs/reference/config/policy-and-telemetry/metrics/)
-* [Istio preconfigured grafana dashboards](https://istio.io/latest/docs/ops/integrations/grafana/)
+* [Istio preconfigured Grafana dashboards](https://istio.io/latest/docs/ops/integrations/grafana/)
   * These dashboards have helpful Prometheus queries and demonstrate what the
     Istio community finds valuable to monitor when running Istio.
 * [Full list of Envoy metrics](https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats)
@@ -22,12 +22,12 @@ There is existing official documentation on what metrics each component exposes.
 One goal you might have when monitoring is to ensure that requests are being
 served and that the components are not becoming overloaded.
 
-## Dataplane Monitoring
+## Data plane monitoring
 
 Significant changes in the number or size of requests is a sign that load on the
-cluster is changing and the ingress-gateways might need to be scaled. Because
+cluster is changing and the Istio ingress-gateways might need to be scaled. Because
 Istio configures Envoy to output data plane metrics, it is possible to measure
-the global dataplane load across all Envoys.
+the global data plane load across all Envoys.
 
 1. The following query will return the rate of requests per second across all
    Envoy proxies configured by Istio:
@@ -73,7 +73,7 @@ all the ingress-gateways:
 sum(irate(envoy_cluster_upstream_rq_503{namespace="istio-system"}[1m]))
 ```
 
-## Gateway Health Metrics
+## Gateway health metrics
 Monitoring the self-reported state of the ingress-gateways is one way to
 determine the health of the ingress-gateways. The relevant metrics for that
 monitoring are:
@@ -103,7 +103,7 @@ monitoring are:
    ```
    sum(envoy_server_live{pod_name=~"istio-ingressgateway-.*"})
    ```
-## General Resource Metrics
+## General resource metrics
 For all the components, you can monitor the standard set of resource usage
 metrics, such as the following queries that measure efficiency:
 
@@ -126,7 +126,7 @@ metrics, such as the following queries that measure efficiency:
       / 1000)
    ```
 
-# Control Plane Latency
+# Control plane latency
 
 The path from making a configuration change using the CF CLI to that change
 being applied in Envoy (especially the Envoy ingress-gateways) has a series of
@@ -138,7 +138,7 @@ step.
 Because most steps involve the K8s API, we will first cover the K8s API metrics that are
 relevant to all those steps.
 
-## K8s API Metrics
+## K8s API metrics
 
 All of the metrics beginning with `apiserver_request_`  measure the load on the
 K8s API server.
@@ -191,9 +191,9 @@ The Route Controller consumes Route CRs and outputs Istio configuration as other
 CRs. There are no metrics output by Route Controller at this time, so the most
 relevant metrics are emitted by the K8s API.
 
-## Istio Metrics
+## Istio metrics
 Istio consumes its config as VirtualService CRs and emits configuration to each
-Envoy via XDS. In addition to K8s API metrics related to VirtualServices, istiod
+Envoy via XDS. In addition to K8s API metrics related to VirtualServices, `istiod`
 outputs several relevant metrics:
 
 1. The following query will return the 99th percentile latency of Istio sending
