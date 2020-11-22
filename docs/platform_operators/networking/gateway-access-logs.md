@@ -1,9 +1,9 @@
-## Access Logs
+## Access logs
 
 ### How to view access logs?
 
 Ingress traffic to Cloud Foundry is proxied through the `istio-ingressgateway`
-pods which prints access logs to stdout. To view them:
+pods which print access logs to `stdout`. To view them:
 
 ```
 kubectl logs -l app=istio-ingressgateway -c istio-proxy -n istio-system
@@ -50,9 +50,9 @@ kubectl logs -l app=istio-ingressgateway -c istio-proxy -n istio-system
 
 ### Duration fields
 
-The access log contains the following fields for duration in milliseconds
+The access log contains the following fields for duration (in milliseconds):
 
-- `upstream_service_time`: The time from when the gateway sends a request to the sidecar to when it recieves a response from the sidecar
+- `upstream_service_time`: The time from when the gateway sends a request to the sidecar to when it receives a response from the sidecar
 - `duration`: The time from when the gateway receives a request from the client to when it sends a response to the client
   to the last byte out
 - `response_duration`: The time from when the gateway receives a request from the client to when it receives a response from the sidecar
@@ -60,8 +60,8 @@ The access log contains the following fields for duration in milliseconds
 
 ![](assets/duration-fields.jpg)
 
-#### Determining App Latency vs Platform Latency
-To calculate the time a request spends within the gateway subtract `upstream_service_time` from `response_duration`
+#### Determining app latency vs platform latency
+To calculate the time a request spends within the gateway subtract `upstream_service_time` from `response_duration`.
 
 ### Fields
 
@@ -91,7 +91,7 @@ format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/
   docs
 * `referer`: HTTP `Referer` header
 * `request_id`: Unique ID for the request
-* `requested_server_name`: String value set on ssl connection socket for Server
+* `requested_server_name`: String value set on SSL connection socket for Server
   Name Indication (SNI); see `%REQUESTED_SERVER_NAME%` in Envoy docs
 * `response_code`: HTTP response code. Note that a response code of ‘0’ means
   that the server never sent the beginning of a response. This generally means
