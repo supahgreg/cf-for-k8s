@@ -4,17 +4,16 @@ This document is intended for cf-for-k8s maintainers.
 
 ## Playbooks
 
-* [Accepting Breaking Changes](playbook-accepting-breaking-changes.md)
-* [Updating Supported Kubernetes Versions](playbook-updating-supported-kubernetes-version.md)
-
+* [Accepting breaking changes](playbook-accepting-breaking-changes.md)
+* [Updating supported Kubernetes versions](playbook-updating-supported-kubernetes-version.md)
 
 ## Dependencies
 
-see "Dependencies" in [community/PREPARING-FOR-DEVELOPMENT.md](/community/PREPARING-FOR-DEVELOPMENT.md#dependencies).
+See "Dependencies" in [community/PREPARING-FOR-DEVELOPMENT.md](/community/PREPARING-FOR-DEVELOPMENT.md#dependencies).
 
 ## Smoke tests
 
-see "Running Smoke Tests" in [community/PREPARING-FOR-DEVELOPMENT.md](/community/PREPARING-FOR-DEVELOPMENT.md#running-smoke-tests).
+See "Running Smoke Tests" in [community/PREPARING-FOR-DEVELOPMENT.md](/community/PREPARING-FOR-DEVELOPMENT.md#running-smoke-tests).
 
 ## Directory structure
 
