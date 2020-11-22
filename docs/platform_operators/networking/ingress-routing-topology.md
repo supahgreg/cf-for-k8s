@@ -11,12 +11,12 @@ installation will use a [LoadBalancer
 Service](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
 to allow traffic to reach the Istio Ingress Gateway.
 
-![Ingress Routing with a load balancer Service](./assets/ingress-gateway-topology-lb-service.jpg)
+![Ingress Routing with a load balancer service](../assets/ingress-gateway-topology-lb-service.jpg)
 
 ### Routing directly to Worker Nodes
 
 For non-production use cases (e.g. demos or testing), it can be useful to not
-require a load balancer and instead have DNS (or client-side /etc/hosts) resolve
+require a load balancer and instead have DNS (or client-side `/etc/hosts`) resolve
 directly to the IP(s) of Kubernetes workers.
 
 As an example, let's consider a Kubernetes cluster with three worker nodes.
@@ -26,14 +26,14 @@ IP addresses.
 
 The following diagram shows what this might look like:
 
-![Ingress Routing directly to workers](./assets/ingress-gateway-topology-directly-to-worker-nodes.jpg)
+![Ingress Routing directly to workers](../assets/ingress-gateway-topology-directly-to-worker-nodes.jpg)
 
-### Routing with an external configured Load Balancer
+### Routing with an externally configured Load Balancer
 
 An alternative to using a Kubernetes Load Balancer service to manage your
 infrastructure Load Balancer is to use an externally configured Load Balancer.
 This is valuable on infrastructures that don't support the Kubernetes Load
-Balancer Service. The external Load Balancer would be configured to receive and
+Balancer service. The external Load Balancer would be configured to receive and
 forward traffic to the Kubernetes Worker nodes on ports 80 and 443.
 
-![Ingress Routing with external load balancer](./assets/ingress-gateway-topology-external-lb.jpg)
+![Ingress Routing with external load balancer](../assets/ingress-gateway-topology-external-lb.jpg)
